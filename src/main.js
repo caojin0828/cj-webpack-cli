@@ -1,5 +1,5 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import Index from './page/index'
+import BaseRouter from './router'
 
-ReactDom.render(<Index/>, document.getElementById('app'));
+ReactDom.render(<BaseRouter/>, document.getElementById('app'));

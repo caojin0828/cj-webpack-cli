@@ -11,5 +11,8 @@
         "es2015",
         "react",
       "babel-preset-stage-3"
+    ],
+    "plugins": [
+        "syntax-dynamic-import"
     ]
 }

@@ -6,7 +6,7 @@ let Autoprefixer = require('autoprefixer')
 module.exports = {
     plugins: [
         Autoprefixer({
-            "browsers": [
+            "overrideBrowserslist": [
                 "defaults",
                 "not ie < 11",
                 "last 2 versions",

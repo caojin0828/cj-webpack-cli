@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from "react-router-dom";
 import './head.scss'
 
 class Head extends React.Component {
@@ -6,6 +7,8 @@ class Head extends React.Component {
         return (
             <div className="head">
                 head module
+                <NavLink to="/">首页</NavLink>
+                <NavLink to="/list">列表</NavLink>
             </div>
         )
     }
