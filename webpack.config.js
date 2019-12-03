@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 拆分css样式的插件
-let ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 let MiniCssExtractPlugin  = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -26,20 +25,12 @@ module.exports = {
             },
             {
                 test: /\.(scss|sass)$/,
-                // use: ExtractTextWebpackPlugin.extract({
-                //     fallback: 'style-loader',
-                //     use: ['css-loader','sass-loader']
-                // }),
                 use: [MiniCssExtractPlugin.loader, 'css-loader','sass-loader'],
                 exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
             },
             {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
-                // use: ExtractTextWebpackPlugin.extract({
-                //     fallback: 'style-loader',
-                //     use: ['css-loader']
-                // }),
                 exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
             },
             {
@@ -69,7 +60,6 @@ module.exports = {
             hash: true, // 会在打包好的bundle.js后面加上hash串
         }),
         // 拆分后会把css文件放到dist目录下的css/style.css
-        // new ExtractTextWebpackPlugin('css/style.css'),
         new MiniCssExtractPlugin({
             filename: 'css/a.css'   // 指定打包后的css
         })
