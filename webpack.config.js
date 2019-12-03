@@ -1,7 +1,12 @@
+'use strict'
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 拆分css样式的插件
-let MiniCssExtractPlugin  = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin  = require('mini-css-extract-plugin');
+// 打包前先清空
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
 
 module.exports = {
     // 模式配置
@@ -10,7 +15,7 @@ module.exports = {
     entry: path.resolve(__dirname, './src/main.js'),
     // 出口
     output: {
-        filename: '[name].js',
+        filename: '[name].[hash].js',
         path: path.resolve(__dirname, './dist'),
     },
      
@@ -20,23 +25,41 @@ module.exports = {
             {
                 test: /\.(js|jsx|mjs|ts|tsx)$/,
                 loaders: 'babel-loader',
-                // include: /src/,          // 只转化src目录下的js
+                include: /src/,          // 只转化src目录下的js
                 exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
             },
             {
                 test: /\.(scss|sass)$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader','sass-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
                 exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
                 exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
             },
             {
-                test: /\.html?$/,
-                
-            }
+                test: /\.(html|htm)$/,
+                use: 'html-withimg-loader'
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10240,  // 小于10k的图片自动转成base64格式，并且不会存在实体图片
+                            outputPath: 'images/',  // 图片打包后存放的目录
+                        }
+                    }
+                ],
+                exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
+            },
+            {
+                test: /\.(eot|ttf|woff|svg)$/,
+                use: 'file-loader'
+            },
+
         ]
     },
     // 解析
@@ -61,7 +84,9 @@ module.exports = {
         }),
         // 拆分后会把css文件放到dist目录下的css/style.css
         new MiniCssExtractPlugin({
-            filename: 'css/a.css'   // 指定打包后的css
-        })
+            filename: 'css/a.[hash].css'   // 指定打包后的css
+        }),
+        // 打包前先清空
+        new CleanWebpackPlugin('dist'),
     ],             
 }
