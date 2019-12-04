@@ -1,27 +1,25 @@
 'use strict'
 
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 拆分css样式的插件
 const MiniCssExtractPlugin  = require('mini-css-extract-plugin');
-// 打包前先清空
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // 代码压缩
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 module.exports = {
     // 模式配置
-    mode: 'development',     
+    mode: 'production',     // production , development
     // 入口 
     // entry: path.resolve(__dirname, './src/main.js'),
     entry: {
-        main: path.resolve(__dirname, './src/main.js'),
-        body: path.resolve(__dirname, './src/components/Body/body.js'),
+        // main: path.resolve(__dirname, './src/main.js'),
+        body: path.resolve(__dirname, './../src/components/Body/main.js'),
+        head: path.resolve(__dirname, './../src/components/Head/main.js'),
     },
     // 出口
     output: {
         filename: '[name].[hash].js',
-        chunkFilename: 'js/[name].[chunkhash].js',
+        chunkFilename: 'js/[name]/[name].[chunkhash].js',
         path: path.resolve(__dirname, 'D:\\wamp\\www\\fission\\project\\test\\view'),
         // library: "someLibName",
         libraryTarget: "umd",
@@ -34,7 +32,7 @@ module.exports = {
             {
                 test: /\.(jsx|tsx)$/,
                 loaders: 'babel-loader',
-                include: path.resolve(__dirname, "src"),          // 只转化src目录下的js
+                include: path.resolve(__dirname, "./../src"),          // 只转化src目录下的js
                 exclude: /node_modules/,  // 排除掉node_modules，优化打包速度
             },
             {
@@ -89,34 +87,19 @@ module.exports = {
     resolve: {
         // 别名
         alias: {
-          '@page':path.join(__dirname,'src/page'),
-          '@component':path.join(__dirname,'src/components'),
+          '@page':path.join(__dirname,'./../src/page'),
+          '@component':path.join(__dirname,'./../src/components'),
         //   actions:path.join(__dirname,'src/redux/actions'),
         //   reducers:path.join(__dirname,'src/redux/reducers'),
         },
         // 省略后缀
         extensions: ['.js', '.jsx', '.json']
     },
-    // 对应的插件
-    plugins: [
-        new HtmlWebpackPlugin({
-            // 用哪个html作为模板
-            // 在src目录下创建一个index.html页面当做模板来用
-            template: './index.html',
-            hash: true, // 会在打包好的bundle.js后面加上hash串
-        }),
-        // 拆分后会把css文件放到dist目录下的css/style.css
-        new MiniCssExtractPlugin({
-            filename: 'css/style.[hash].css'   // 指定打包后的css
-        }),
-        // 打包前先清空
-        new CleanWebpackPlugin(),
-    ],
     // 性能优化
     optimization: {
-        runtimeChunk: {
-            name: 'manifest'
-        },
+        // runtimeChunk: {
+        //     name: 'manifest'
+        // },
         // 压缩
         minimize: false, 
         minimizer: [
@@ -137,6 +120,22 @@ module.exports = {
                     priority: 10,
                     name: 'vendor'
                 },
+                // body: {
+                //     test: /[\\/]components\/Body[\\/]/,
+                //     chunks: "all",
+                //     // minChunks: 2,
+                //     name: 'common',
+                //     enforce: true,
+                //     priority: 5
+                // },
+                // head: {
+                //     test: /[\\/]components\/Head[\\/]/,
+                //     chunks: "all",
+                //     // minChunks: 2,
+                //     name: 'common',
+                //     enforce: true,
+                //     priority: 5
+                // },
                 common: {
                     chunks: "all",
                     minChunks: 2,
