@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import routers from './path'
 import Index from './../page/index'
 
@@ -15,7 +15,7 @@ import Index from './../page/index'
 class BaseRouter extends React.Component {
     render(){
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <Switch>
                 {
                     routers.map((item,index) => (
@@ -26,7 +26,7 @@ class BaseRouter extends React.Component {
                     ))
                 }
                 </Switch>
-            </BrowserRouter>
+            </HashRouter>
         )
     }
 }

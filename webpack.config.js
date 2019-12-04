@@ -13,11 +13,11 @@ module.exports = {
     // 模式配置
     mode: 'development',     
     // 入口 
-    entry: path.resolve(__dirname, './src/main.js'),
-    // entry: {
-    //     main: path.resolve(__dirname, './src/main.js'),
-    //     head: path.resolve(__dirname, './src/components/Head/Head.jsx'),
-    // },
+    // entry: path.resolve(__dirname, './src/main.js'),
+    entry: {
+        main: path.resolve(__dirname, './src/main.js'),
+        body: path.resolve(__dirname, './src/components/Body/body.js'),
+    },
     // 出口
     output: {
         filename: '[name].[hash].js',
