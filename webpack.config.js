@@ -14,11 +14,18 @@ module.exports = {
     mode: 'development',     
     // 入口 
     entry: path.resolve(__dirname, './src/main.js'),
+    // entry: {
+    //     main: path.resolve(__dirname, './src/main.js'),
+    //     head: path.resolve(__dirname, './src/components/Head/Head.jsx'),
+    // },
     // 出口
     output: {
         filename: '[name].[hash].js',
-        chunkFilename: '[name].[contenthash].js',
-        path: path.resolve(__dirname, './dist'),
+        chunkFilename: 'js/[name].[chunkhash].js',
+        path: path.resolve(__dirname, 'D:\\wamp\\www\\fission\\project\\test\\view'),
+        // library: "someLibName",
+        libraryTarget: "umd",
+        // auxiliaryComment: "author: xiao jin",
     },
      
     // 模块解析
@@ -119,7 +126,25 @@ module.exports = {
             })
         ],
         splitChunks: {
-            chunks:'all',//同时分割同步和异步代码,推荐。
+            // chunks:'all',//同时分割同步和异步代码,推荐。
+            cacheGroups: {
+                default: false,
+                vendors: false,
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'all',
+                    enforce: true,
+                    priority: 10,
+                    name: 'vendor'
+                },
+                common: {
+                    chunks: "all",
+                    minChunks: 2,
+                    name: 'common',
+                    enforce: true,
+                    priority: 5
+                }
+            }
         }
     }
 }
